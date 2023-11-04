@@ -3,6 +3,7 @@ using BookStoreOnline.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreOnline.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231102120736_AddForeignKeyForCategoryProductRelation")]
+    partial class AddForeignKeyForCategoryProductRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace BookStoreOnline.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("ListPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -119,7 +118,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 1,
                             Description = "A classic novel about the American Dream in the Jazz Age.",
                             ISBN = "978-0743273565",
-                            ImageUrl = "",
                             ListPrice = 19.99m,
                             Price = 15.99m,
                             Price50To100 = 14.99m,
@@ -133,7 +131,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 2,
                             Description = "A powerful story about racial injustice in the American South.",
                             ISBN = "978-0061120084",
-                            ImageUrl = "",
                             ListPrice = 18.99m,
                             Price = 16.99m,
                             Price50To100 = 15.99m,
@@ -147,7 +144,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 3,
                             Description = "A dystopian novel that explores the dangers of totalitarianism.",
                             ISBN = "978-0451524935",
-                            ImageUrl = "",
                             ListPrice = 16.99m,
                             Price = 13.99m,
                             Price50To100 = 12.99m,
@@ -161,7 +157,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 2,
                             Description = "A coming-of-age novel following the adventures of Holden Caulfield.",
                             ISBN = "978-0316769174",
-                            ImageUrl = "",
                             ListPrice = 15.99m,
                             Price = 12.99m,
                             Price50To100 = 11.99m,
@@ -175,7 +170,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 1,
                             Description = "A classic romance novel set in 19th-century England.",
                             ISBN = "978-0141439518",
-                            ImageUrl = "",
                             ListPrice = 17.99m,
                             Price = 14.99m,
                             Price50To100 = 13.99m,
@@ -189,7 +183,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 2,
                             Description = "A fantasy adventure about the journey of Bilbo Baggins.",
                             ISBN = "978-0345534835",
-                            ImageUrl = "",
                             ListPrice = 20.99m,
                             Price = 17.99m,
                             Price50To100 = 16.99m,
@@ -203,7 +196,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 1,
                             Description = "A philosophical novel about pursuing one's dreams.",
                             ISBN = "978-0062315007",
-                            ImageUrl = "",
                             ListPrice = 14.99m,
                             Price = 11.99m,
                             Price50To100 = 10.99m,
@@ -217,7 +209,6 @@ namespace BookStoreOnline.Data.Migrations
                             CategoryId = 3,
                             Description = "The first book in the popular Harry Potter series.",
                             ISBN = "978-0590353427",
-                            ImageUrl = "",
                             ListPrice = 21.99m,
                             Price = 18.99m,
                             Price50To100 = 17.99m,

@@ -10,6 +10,8 @@ namespace BookStoreOnline.Data.Repositories.IRepositories
 	{
 		ICategoryRepository CategoryRepository { get; }
 
+		IProductRepository ProductRepository { get; }
+
 		void Save();
 	}
 }

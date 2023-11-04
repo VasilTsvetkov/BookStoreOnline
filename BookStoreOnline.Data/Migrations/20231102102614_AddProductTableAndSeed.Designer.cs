@@ -3,6 +3,7 @@ using BookStoreOnline.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreOnline.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231102102614_AddProductTableAndSeed")]
+    partial class AddProductTableAndSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,18 +77,11 @@ namespace BookStoreOnline.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -107,8 +103,6 @@ namespace BookStoreOnline.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -116,10 +110,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 1,
                             Author = "F. Scott Fitzgerald",
-                            CategoryId = 1,
                             Description = "A classic novel about the American Dream in the Jazz Age.",
                             ISBN = "978-0743273565",
-                            ImageUrl = "",
                             ListPrice = 19.99m,
                             Price = 15.99m,
                             Price50To100 = 14.99m,
@@ -130,10 +122,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 2,
                             Author = "Harper Lee",
-                            CategoryId = 2,
                             Description = "A powerful story about racial injustice in the American South.",
                             ISBN = "978-0061120084",
-                            ImageUrl = "",
                             ListPrice = 18.99m,
                             Price = 16.99m,
                             Price50To100 = 15.99m,
@@ -144,10 +134,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 3,
                             Author = "George Orwell",
-                            CategoryId = 3,
                             Description = "A dystopian novel that explores the dangers of totalitarianism.",
                             ISBN = "978-0451524935",
-                            ImageUrl = "",
                             ListPrice = 16.99m,
                             Price = 13.99m,
                             Price50To100 = 12.99m,
@@ -158,10 +146,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 4,
                             Author = "J.D. Salinger",
-                            CategoryId = 2,
                             Description = "A coming-of-age novel following the adventures of Holden Caulfield.",
                             ISBN = "978-0316769174",
-                            ImageUrl = "",
                             ListPrice = 15.99m,
                             Price = 12.99m,
                             Price50To100 = 11.99m,
@@ -172,10 +158,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 5,
                             Author = "Jane Austen",
-                            CategoryId = 1,
                             Description = "A classic romance novel set in 19th-century England.",
                             ISBN = "978-0141439518",
-                            ImageUrl = "",
                             ListPrice = 17.99m,
                             Price = 14.99m,
                             Price50To100 = 13.99m,
@@ -186,10 +170,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 6,
                             Author = "J.R.R. Tolkien",
-                            CategoryId = 2,
                             Description = "A fantasy adventure about the journey of Bilbo Baggins.",
                             ISBN = "978-0345534835",
-                            ImageUrl = "",
                             ListPrice = 20.99m,
                             Price = 17.99m,
                             Price50To100 = 16.99m,
@@ -200,10 +182,8 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 7,
                             Author = "Paulo Coelho",
-                            CategoryId = 1,
                             Description = "A philosophical novel about pursuing one's dreams.",
                             ISBN = "978-0062315007",
-                            ImageUrl = "",
                             ListPrice = 14.99m,
                             Price = 11.99m,
                             Price50To100 = 10.99m,
@@ -214,27 +194,14 @@ namespace BookStoreOnline.Data.Migrations
                         {
                             Id = 8,
                             Author = "J.K. Rowling",
-                            CategoryId = 3,
                             Description = "The first book in the popular Harry Potter series.",
                             ISBN = "978-0590353427",
-                            ImageUrl = "",
                             ListPrice = 21.99m,
                             Price = 18.99m,
                             Price50To100 = 17.99m,
                             PriceOver100 = 16.99m,
                             Title = "Harry Potter and the Sorcerer's Stone"
                         });
-                });
-
-            modelBuilder.Entity("BookStoreOnline.Models.Product", b =>
-                {
-                    b.HasOne("BookStoreOnline.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

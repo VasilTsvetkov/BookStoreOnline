@@ -14,10 +14,13 @@ namespace BookStoreOnline.Data.Repositories
 
 		public ICategoryRepository CategoryRepository { get; private set; }
 
+		public IProductRepository ProductRepository { get; private set; }
+
 		public UnitOfWork(ApplicationDbContext db)
 		{
 			this.db = db;
 			CategoryRepository = new CategoryRepository(this.db);
+			ProductRepository = new ProductRepository(this.db);
 		}
 
 		public void Save()
