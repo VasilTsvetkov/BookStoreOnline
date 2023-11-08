@@ -29,7 +29,7 @@ namespace BookStoreOnline.Data.Repositories
 				productFromDb.Title = product.Title;
 				productFromDb.ISBN = product.ISBN;
 				productFromDb.Price = product.Price;
-				productFromDb.Price50To100 = product.Price50To100;
+				productFromDb.Price51To100 = product.Price51To100;
 				productFromDb.PriceOver100 = product.PriceOver100;
 				productFromDb.Description = product.Description;
 				productFromDb.CategoryId = product.CategoryId;

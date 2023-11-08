@@ -1,9 +1,10 @@
 ﻿using BookStoreOnline.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreOnline.Data.Data
 {
-	public class ApplicationDbContext : DbContext
+	public class ApplicationDbContext : IdentityDbContext
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
@@ -17,6 +18,8 @@ namespace BookStoreOnline.Data.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
 			modelBuilder.Entity<Category>().HasData(
 				new Category { Id = 1, Name = "Action", DisplayOrder = 1, },
 				new Category { Id = 2, Name = "SciFi", DisplayOrder = 2, },
@@ -33,7 +36,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0743273565",
 					ListPrice = 19.99M,
 					Price = 15.99M,
-					Price50To100 = 14.99M,
+					Price51To100 = 14.99M,
 					PriceOver100 = 13.99M,
 					CategoryId = 1,
 					ImageUrl = "",
@@ -47,7 +50,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0061120084",
 					ListPrice = 18.99M,
 					Price = 16.99M,
-					Price50To100 = 15.99M,
+					Price51To100 = 15.99M,
 					PriceOver100 = 14.99M,
 					CategoryId = 2,
 					ImageUrl = "",
@@ -61,7 +64,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0451524935",
 					ListPrice = 16.99M,
 					Price = 13.99M,
-					Price50To100 = 12.99M,
+					Price51To100 = 12.99M,
 					PriceOver100 = 11.99M,
 					CategoryId = 3,
 					ImageUrl = "",
@@ -75,7 +78,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0316769174",
 					ListPrice = 15.99M,
 					Price = 12.99M,
-					Price50To100 = 11.99M,
+					Price51To100 = 11.99M,
 					PriceOver100 = 10.99M,
 					CategoryId = 2,
 					ImageUrl = "",
@@ -89,7 +92,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0141439518",
 					ListPrice = 17.99M,
 					Price = 14.99M,
-					Price50To100 = 13.99M,
+					Price51To100 = 13.99M,
 					PriceOver100 = 12.99M,
 					CategoryId = 1,
 					ImageUrl = "",
@@ -103,7 +106,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0345534835",
 					ListPrice = 20.99M,
 					Price = 17.99M,
-					Price50To100 = 16.99M,
+					Price51To100 = 16.99M,
 					PriceOver100 = 15.99M,
 					CategoryId = 2,
 					ImageUrl = "",
@@ -117,7 +120,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0062315007",
 					ListPrice = 14.99M,
 					Price = 11.99M,
-					Price50To100 = 10.99M,
+					Price51To100 = 10.99M,
 					PriceOver100 = 9.99M,
 					CategoryId = 1,
 					ImageUrl = "",
@@ -131,7 +134,7 @@ namespace BookStoreOnline.Data.Data
 					ISBN = "978-0590353427",
 					ListPrice = 21.99M,
 					Price = 18.99M,
-					Price50To100 = 17.99M,
+					Price51To100 = 17.99M,
 					PriceOver100 = 16.99M,
 					CategoryId = 3,
 					ImageUrl = "",

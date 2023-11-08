@@ -31,17 +31,17 @@ namespace BookStoreOnline.Models
 		public decimal ListPrice { get; set; }
 
 		[Required]
-		[DisplayName("Price for less than 50 copies")]
+		[DisplayName("Price for 1-50 copies")]
 		[Range(3, 1000)]
 		public decimal Price { get; set; }
 
 		[Required]
-		[DisplayName("Price for 50-100 copies")]
+		[DisplayName("Price for 51-100 copies")]
 		[Range(3, 1000)]
-		public decimal Price50To100 { get; set; }
+		public decimal Price51To100 { get; set; }
 
 		[Required]
-		[DisplayName("Price for over 100 copies")]
+		[DisplayName("Price 100+ copies")]
 		[Range(3, 1000)]
 		public decimal PriceOver100 { get; set; }
 
