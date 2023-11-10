@@ -8,5 +8,9 @@ namespace BookStoreOnline.Utilities
 {
 	public static class GlobalConstants
 	{
+		public const string RoleCustomer = "Customer";
+		public const string RoleAdmin = "Admin";
+		public const string RoleCompany = "Company";
+		public const string RoleEmployee = "Employee";
 	}
 }
