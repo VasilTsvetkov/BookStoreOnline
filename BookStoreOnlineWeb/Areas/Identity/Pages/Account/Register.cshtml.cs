@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BookStoreOnline.Data.Repositories.IRepositories;
 using BookStoreOnline.Models;
 using BookStoreOnline.Utilities;
 using Microsoft.AspNetCore.Authentication;
@@ -34,6 +35,7 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,7 +43,8 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
 			IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -50,6 +53,7 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -122,6 +126,11 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
 			public string? PostalCode { get; set; }
 
 			public string? PhoneNumber { get; set; }
+
+            public int? CompanyId { get; set; }
+
+			[ValidateNever]
+			public IEnumerable<SelectListItem> Companies { get; set; }
 		}
 
 
@@ -141,8 +150,13 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
                 {
                     Text = i,
                     Value = i
-                })
-            };
+                }),
+				Companies = _unitOfWork.CompanyRepository.GetAll().Select(i => new SelectListItem
+				{
+					Text = i.Name,
+					Value = i.Id.ToString(),
+				})
+			};
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -164,6 +178,11 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
                 user.Country = Input.Country;
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
+
+                if (Input.Role == GlobalConstants.RoleCompany)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

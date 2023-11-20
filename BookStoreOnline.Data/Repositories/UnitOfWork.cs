@@ -16,11 +16,26 @@ namespace BookStoreOnline.Data.Repositories
 
 		public IProductRepository ProductRepository { get; private set; }
 
+		public ICompanyRepository CompanyRepository { get; private set; }
+
+		public IShoppingCartRepository ShoppingCartRepository { get; private set; }
+
+		public IApplicationUserRepository ApplicationUserRepository { get; private set; }
+
+		public IOrderDetailRepository OrderDetailRepository { get; private set; }
+
+		public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
+
 		public UnitOfWork(ApplicationDbContext db)
 		{
 			this.db = db;
 			CategoryRepository = new CategoryRepository(this.db);
 			ProductRepository = new ProductRepository(this.db);
+            CompanyRepository = new CompanyRepository(this.db);
+			ShoppingCartRepository = new ShoppingCartRepository(this.db);
+			ApplicationUserRepository = new ApplicationUserRepository(this.db);
+			OrderDetailRepository = new OrderDetailRepository(this.db);
+			OrderHeaderRepository = new OrderHeaderRepository(this.db);
 		}
 
 		public void Save()
