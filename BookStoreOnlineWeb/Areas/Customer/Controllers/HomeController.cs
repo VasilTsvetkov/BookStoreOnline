@@ -1,5 +1,6 @@
 ﻿using BookStoreOnline.Data.Repositories.IRepositories;
 using BookStoreOnline.Models;
+using BookStoreOnline.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            var products = unitOfWork.ProductRepository.GetAll(includeProperties: nameof(Category));
+			var products = unitOfWork.ProductRepository.GetAll(includeProperties: nameof(Category));
             return View(products);
         }
 
@@ -51,15 +52,17 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
             {
                 dbCart.Count += shoppingCart.Count;
                 unitOfWork.ShoppingCartRepository.Update(dbCart);
-            }
+				unitOfWork.Save();
+			}
             else
             {
                 unitOfWork.ShoppingCartRepository.Add(shoppingCart);
+				unitOfWork.Save();
+				HttpContext.Session.SetInt32(GlobalConstants.SessionCart, 
+                    unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == userId).Count());
             }
 
             TempData["success"] = "Cart updated successfully.";
-
-            unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }

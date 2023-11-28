@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using BookStoreOnline.Models;
+using BookStoreOnline.Utilities;
 
 namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
 {
@@ -84,7 +86,20 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
-        }
+
+			[Required]
+			public string Name { get; set; }
+
+			public string? Address { get; set; }
+
+			public string? City { get; set; }
+
+			public string? Country { get; set; }
+
+			public string? PostalCode { get; set; }
+
+			public string? PhoneNumber { get; set; }
+		}
         
         public IActionResult OnGet() => RedirectToPage("./Login");
 
@@ -131,7 +146,8 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        Name = info.Principal.FindFirstValue(ClaimTypes.Name),
                     };
                 }
                 return Page();
@@ -155,10 +171,17 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.Address = Input.Address;
+                user.City = Input.City;
+                user.Country = Input.Country;
+                user.PostalCode = Input.PostalCode;
+                user.Name = Input.Name;
+                user.PhoneNumber = Input.PhoneNumber;
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, GlobalConstants.RoleCustomer);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -197,11 +220,11 @@ namespace BookStoreOnlineWeb.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {

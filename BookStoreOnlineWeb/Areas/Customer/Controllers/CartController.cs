@@ -174,6 +174,8 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
 						.UpdateStatus(id, GlobalConstants.StatusApproved, GlobalConstants.PaymentStatusApproved);
 					unitOfWork.Save();
 				}
+
+				HttpContext.Session.Clear();
 			}
 
 			var shoppingCarts = unitOfWork.ShoppingCartRepository
@@ -198,10 +200,12 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
 
 		public IActionResult Minus(int cardId)
 		{
-			var cart = unitOfWork.ShoppingCartRepository.Get(x => x.Id == cardId);
+			var cart = unitOfWork.ShoppingCartRepository.Get(x => x.Id == cardId, isTracked: true);
 
 			if (cart.Count <= 1)
 			{
+				HttpContext.Session.SetInt32(GlobalConstants.SessionCart,
+					unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == cart.ApplicationUserId).Count() - 1);
 				unitOfWork.ShoppingCartRepository.Remove(cart);
 			}
 			else
@@ -217,8 +221,10 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
 
 		public IActionResult Remove(int cardId)
 		{
-			var cart = unitOfWork.ShoppingCartRepository.Get(x => x.Id == cardId);
+			var cart = unitOfWork.ShoppingCartRepository.Get(x => x.Id == cardId, isTracked: true);
 
+			HttpContext.Session.SetInt32(GlobalConstants.SessionCart,
+				unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == cart.ApplicationUserId).Count() - 1);
 			unitOfWork.ShoppingCartRepository.Remove(cart);
 			unitOfWork.Save();
 
