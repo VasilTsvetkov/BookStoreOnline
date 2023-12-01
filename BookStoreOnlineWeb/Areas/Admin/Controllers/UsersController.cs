@@ -39,7 +39,7 @@ namespace BookStoreOnlineWeb.Areas.Admin.Controllers
 			viewModel.Roles = db.Roles.Select(x => new SelectListItem
 			{
 				Text = x.Name, 
-				Value = x.Id.ToString()
+				Value = x.Name
 			});
 
 			viewModel.Companies = db.Companies.Select(x => new SelectListItem
