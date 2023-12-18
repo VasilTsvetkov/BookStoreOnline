@@ -7,7 +7,14 @@
 			<div class="row p-2">
 				<div class="col-12 p-1">
 					<div class="card-border-0 p-3 shadow border-top border-5 rounded">
-						<img src="@item.ImageUrl" class="card-img-top rounded" />
+						@if (item.ProductImages != null && item.ProductImages.Count > 0)
+						{
+							<img src="@item.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
+						}
+						else
+						{
+							<img src="https://placehold.co/450x600" class="card-img-top rounded" />
+						}
 						<div class="card-body pb-0">
 							<div class="pl-1">
 								<p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@item.Title</p>

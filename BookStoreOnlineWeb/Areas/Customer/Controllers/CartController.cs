@@ -33,10 +33,13 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
 				.GetAll(x => x.ApplicationUserId == userId, includeProperties: nameof(Product));
 			ShoppingCartViewModel.OrderHeader = new OrderHeader();
 
-			foreach (var cart in ShoppingCartViewModel.ShoppingCarts)
+			var productImages = unitOfWork.ProductImageRepository.GetAll();
+
+			foreach (var item in ShoppingCartViewModel.ShoppingCarts)
 			{
-				cart.Price = CalculatePriceBasedOnQuantity(cart);
-				ShoppingCartViewModel.OrderHeader.OrderTotal += cart.Price * cart.Count;
+				item.Product.ProductImages = productImages.Where(x => x.ProductId == item.Product.Id).ToList();
+				item.Price = CalculatePriceBasedOnQuantity(item);
+				ShoppingCartViewModel.OrderHeader.OrderTotal += item.Price * item.Count;
 			}
 
 			return View(ShoppingCartViewModel);

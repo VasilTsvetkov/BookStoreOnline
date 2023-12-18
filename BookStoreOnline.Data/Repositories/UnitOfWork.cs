@@ -26,6 +26,8 @@ namespace BookStoreOnline.Data.Repositories
 
 		public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
 
+		public IProductImageRepository ProductImageRepository { get; private set; }
+
 		public UnitOfWork(ApplicationDbContext db)
 		{
 			this.db = db;
@@ -36,6 +38,7 @@ namespace BookStoreOnline.Data.Repositories
 			ApplicationUserRepository = new ApplicationUserRepository(this.db);
 			OrderDetailRepository = new OrderDetailRepository(this.db);
 			OrderHeaderRepository = new OrderHeaderRepository(this.db);
+			ProductImageRepository = new ProductImageRepository(this.db);
 		}
 
 		public void Save()

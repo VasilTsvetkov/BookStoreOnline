@@ -22,6 +22,8 @@ namespace BookStoreOnline.Data.Repositories.IRepositories
 
 		IOrderDetailRepository OrderDetailRepository { get; }
 
+		IProductImageRepository ProductImageRepository { get; }
+
         void Save();
 	}
 }

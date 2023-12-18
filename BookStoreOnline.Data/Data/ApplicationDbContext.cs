@@ -27,6 +27,8 @@ namespace BookStoreOnline.Data.Data
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<ProductImage> ProductImages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
@@ -83,7 +85,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 14.99M,
 					PriceOver100 = 13.99M,
 					CategoryId = 1,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -97,7 +98,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 15.99M,
 					PriceOver100 = 14.99M,
 					CategoryId = 2,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -111,7 +111,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 12.99M,
 					PriceOver100 = 11.99M,
 					CategoryId = 3,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -125,7 +124,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 11.99M,
 					PriceOver100 = 10.99M,
 					CategoryId = 2,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -139,7 +137,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 13.99M,
 					PriceOver100 = 12.99M,
 					CategoryId = 1,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -153,7 +150,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 16.99M,
 					PriceOver100 = 15.99M,
 					CategoryId = 2,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -167,7 +163,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 10.99M,
 					PriceOver100 = 9.99M,
 					CategoryId = 1,
-					ImageUrl = "",
 				},
 				new Product
 				{
@@ -181,7 +176,6 @@ namespace BookStoreOnline.Data.Data
 					Price51To100 = 17.99M,
 					PriceOver100 = 16.99M,
 					CategoryId = 3,
-					ImageUrl = "",
 				}
 			);
 		}

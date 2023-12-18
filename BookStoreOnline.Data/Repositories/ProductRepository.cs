@@ -34,11 +34,12 @@ namespace BookStoreOnline.Data.Repositories
 				productFromDb.Description = product.Description;
 				productFromDb.CategoryId = product.CategoryId;
 				productFromDb.Author = product.Author;
+				productFromDb.ProductImages = product.ProductImages;
 
-				if (product.ImageUrl != null)
-				{
-					productFromDb.ImageUrl = product.ImageUrl;
-				}
+				//if (product.ImageUrl != null)
+				//{
+				//	productFromDb.ImageUrl = product.ImageUrl;
+				//}
 			}
 		}
 	}
