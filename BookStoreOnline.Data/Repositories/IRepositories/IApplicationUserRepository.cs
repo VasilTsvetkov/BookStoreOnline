@@ -11,6 +11,6 @@ namespace BookStoreOnline.Data.Repositories.IRepositories
 {
 	public interface IApplicationUserRepository : IGenericRepository<ApplicationUser>
 	{
-
+		void Update(ApplicationUser applicationUser);
 	}
 }

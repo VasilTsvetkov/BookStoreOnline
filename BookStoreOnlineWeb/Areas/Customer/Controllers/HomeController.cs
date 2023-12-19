@@ -30,7 +30,7 @@ namespace BookStoreOnlineWeb.Areas.Customer.Controllers
         {
             var shoppingCart = new ShoppingCart();
             shoppingCart.Product = unitOfWork.ProductRepository
-                .Get(x => x.Id == id, includeProperties: nameof(Category));
+                .Get(x => x.Id == id, includeProperties: nameof(Category) + "," + nameof(Product.ProductImages));
             shoppingCart.Count = 1;
             shoppingCart.ProductId = id;
 

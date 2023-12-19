@@ -19,5 +19,10 @@ namespace BookStoreOnline.Data.Repositories
         {
             this.db = db;
         }
+
+		public void Update(ApplicationUser applicationUser)
+		{
+			db.ApplicationUsers.Update(applicationUser);
+		}
 	}
 }

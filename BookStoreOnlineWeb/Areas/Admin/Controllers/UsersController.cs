@@ -15,13 +15,15 @@ namespace BookStoreOnlineWeb.Areas.Admin.Controllers
 	[Authorize(Roles = GlobalConstants.RoleAdmin)]
 	public class UsersController : Controller
 	{
-		private readonly ApplicationDbContext db;
+		private readonly IUnitOfWork unitOfWork;
 		private readonly UserManager<IdentityUser> userManager;
+		private readonly RoleManager<IdentityRole> roleManager;
 
-		public UsersController(ApplicationDbContext db, UserManager<IdentityUser> userManager)
+		public UsersController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
 		{
-			this.db = db;
+			this.unitOfWork = unitOfWork;
 			this.userManager = userManager;
+			this.roleManager = roleManager;
 		}
 
 		public IActionResult Index()
@@ -31,52 +33,61 @@ namespace BookStoreOnlineWeb.Areas.Admin.Controllers
 
 		public IActionResult RoleManagement(string userId)
 		{
-			var roleId = db.UserRoles.FirstOrDefault(x => x.UserId == userId).RoleId;
 			var viewModel = new RoleManagementViewModel();
-			viewModel.ApplicationUser = db.ApplicationUsers
-				.Include(x => x.Company).FirstOrDefault(x => x.Id == userId);
+			viewModel.ApplicationUser = unitOfWork.ApplicationUserRepository
+				.Get(x => x.Id == userId, includeProperties: nameof(Company));
 
-			viewModel.Roles = db.Roles.Select(x => new SelectListItem
+			viewModel.Roles = roleManager.Roles.Select(x => new SelectListItem
 			{
-				Text = x.Name, 
+				Text = x.Name,
 				Value = x.Name
 			});
 
-			viewModel.Companies = db.Companies.Select(x => new SelectListItem
+			viewModel.Companies = unitOfWork.CompanyRepository.GetAll().Select(x => new SelectListItem
 			{
 				Text = x.Name,
 				Value = x.Id.ToString()
 			});
 
-			viewModel.ApplicationUser.Role = db.Roles.FirstOrDefault(x => x.Id == roleId).Name;
+			viewModel.ApplicationUser.Role = userManager.GetRolesAsync(unitOfWork.ApplicationUserRepository.Get(x => x.Id == userId))
+				.GetAwaiter().GetResult().FirstOrDefault();
 			return View(viewModel);
 		}
 
 		[HttpPost]
 		public IActionResult RoleManagement(RoleManagementViewModel viewModel)
 		{
-			var roleId = db.UserRoles.FirstOrDefault(x => x.UserId == viewModel.ApplicationUser.Id).RoleId;
-			var oldRole = db.Roles.FirstOrDefault(x => x.Id == roleId).Name;
+			var oldRole = userManager.GetRolesAsync(unitOfWork.ApplicationUserRepository.Get(x => x.Id == viewModel.ApplicationUser.Id))
+				.GetAwaiter().GetResult().FirstOrDefault();
+
+			var user = unitOfWork.ApplicationUserRepository.Get(x => x.Id == viewModel.ApplicationUser.Id);
 
 			if (viewModel.ApplicationUser.Role != oldRole)
 			{
-				var user = db.ApplicationUsers.FirstOrDefault(x => x.Id == viewModel.ApplicationUser.Id);
-				
-				if (viewModel.ApplicationUser.Role == GlobalConstants.RoleCompany) 
-				{ 
+				if (viewModel.ApplicationUser.Role == GlobalConstants.RoleCompany)
+				{
 					user.CompanyId = viewModel.ApplicationUser.CompanyId;
 				}
 				if (oldRole == GlobalConstants.RoleCompany)
 				{
 					user.CompanyId = null;
 				}
-
-				db.SaveChanges();
+				unitOfWork.ApplicationUserRepository.Update(user);
+				unitOfWork.Save();
 
 				userManager.RemoveFromRoleAsync(user, oldRole).GetAwaiter().GetResult();
 				userManager.AddToRoleAsync(user, viewModel.ApplicationUser.Role).GetAwaiter().GetResult();
 			}
-			
+			else
+			{
+				if (oldRole == GlobalConstants.RoleCompany && user.CompanyId != viewModel.ApplicationUser.CompanyId)
+				{
+					user.CompanyId = viewModel.ApplicationUser.CompanyId;
+					unitOfWork.ApplicationUserRepository.Update(user);
+					unitOfWork.Save();
+				}
+			}
+
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -85,15 +96,11 @@ namespace BookStoreOnlineWeb.Areas.Admin.Controllers
 		[HttpGet]
 		public IActionResult GetAll()
 		{
-			var users = db.ApplicationUsers.Include(x => x.Company).ToList();
-
-			var userRoles = db.UserRoles.ToList();
-			var roles = db.Roles.ToList();
+			var users = unitOfWork.ApplicationUserRepository.GetAll(includeProperties: nameof(Company));
 
 			foreach (var item in users)
 			{
-				var roleId = userRoles.FirstOrDefault(x => x.UserId == item.Id).RoleId;
-				item.Role = roles.FirstOrDefault(x => x.Id == roleId).Name;
+				item.Role = userManager.GetRolesAsync(item).GetAwaiter().GetResult().FirstOrDefault();
 
 				if (item.Company == null)
 				{
@@ -108,7 +115,7 @@ namespace BookStoreOnlineWeb.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult LockUnlock([FromBody] string id)
 		{
-			var user = db.ApplicationUsers.FirstOrDefault(x => x.Id == id);
+			var user = unitOfWork.ApplicationUserRepository.Get(x => x.Id == id);
 
 			if (user == null)
 			{
@@ -124,7 +131,8 @@ namespace BookStoreOnlineWeb.Areas.Admin.Controllers
 				user.LockoutEnd = DateTime.UtcNow.AddYears(100);
 			}
 
-			db.SaveChanges();
+			unitOfWork.ApplicationUserRepository.Update(user);
+			unitOfWork.Save();
 
 			return Json(new { success = true, message = "Operation is successfull." });
 		}

@@ -31,7 +31,7 @@
 											.Select((image, index) => new { Image = image, Index = index }))
 									{
 										<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@item.Index" 
-										class="@(item.Index == 0? "active" : "")" aria-current="true" aria-label="Slide 1"></button>
+										class="@(item.Index == 0 ? "active" : "")" aria-current="true" aria-label="Slide 1"></button>
 									}
 
 								</div>
