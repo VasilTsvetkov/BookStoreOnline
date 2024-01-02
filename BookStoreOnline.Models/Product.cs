@@ -41,7 +41,7 @@ namespace BookStoreOnline.Models
 		public decimal Price51To100 { get; set; }
 
 		[Required]
-		[DisplayName("Price 100+ copies")]
+		[DisplayName("Price for 100+ copies")]
 		[Range(3, 1000)]
 		public decimal PriceOver100 { get; set; }
 
@@ -53,6 +53,7 @@ namespace BookStoreOnline.Models
         public Category Category { get; set; }
 
 		[ValidateNever]
+		[DisplayName("Images")]
 		public List<ProductImage> ProductImages { get; set; }
     }
 }
