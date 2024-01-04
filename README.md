@@ -30,3 +30,17 @@ Book Store Online comes packed with a wide variety of features to enhance your o
 - **Shopping Cart**: Users can get full shopping experience with the convenient shopping cart functionality.
 
 - **Stripe Payment Integration**: The app integrates the Stripe payment system, enhancing the security and efficiency of the purchase process.
+
+## Screenshots
+
+Here are some screenshots showcasing the key functionalities of the application:
+
+**User Authentication and Authorization**:
+
+#### Login page
+
+![image](https://github.com/VasilTsvetkov/BookStoreOnline/assets/84472315/4ee107c7-3011-480d-87bd-352301d40e63)
+
+#### Register page
+
+![image](https://github.com/VasilTsvetkov/BookStoreOnline/assets/84472315/d0a27ccb-8743-4700-9f42-fb436a9f3076)
